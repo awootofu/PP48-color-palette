@@ -1,0 +1,11 @@
+{
+  "name": "pp48-color-palette-verify",
+  "private": true,
+  "description": "Playwright harness that verifies the PP48 Color Palette Identifier in a real browser.",
+  "scripts": {
+    "verify": "node verify.js http://127.0.0.1:8787/"
+  },
+  "devDependencies": {
+    "playwright-core": "^1.49.0"
+  }
+}

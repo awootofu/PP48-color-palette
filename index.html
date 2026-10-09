@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Color Palette Identifier</title>
+<meta name="description" content="Load an image and instantly get its dominant colors and hex codes. Runs 100% in the browser with lokesh/color-thief.">
+<link rel="stylesheet" href="styles.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect x='2' y='2' width='13' height='13' rx='3' fill='%23ff5f6d'/%3E%3Crect x='17' y='2' width='13' height='13' rx='3' fill='%23ffc371'/%3E%3Crect x='2' y='17' width='13' height='13' rx='3' fill='%232fd1a5'/%3E%3Crect x='17' y='17' width='13' height='13' rx='3' fill='%235c6bc0'/%3E%3C/svg%3E">
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap">
+    <h1>Color Palette Identifier</h1>
+    <p class="tagline">Load an image &rarr; its color palette and hex codes appear automatically.</p>
+    <p class="powered">
+      Powered by <a href="https://github.com/lokesh/color-thief" target="_blank" rel="noopener">lokesh/color-thief</a>
+      &middot; images never leave your device
+    </p>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section class="panel">
+    <h2><span class="step">1</span> Load an image</h2>
+
+    <div id="dropzone" class="dropzone" role="button" tabindex="0"
+         aria-label="Drop an image here, or press Enter to browse for a file">
+      <svg class="dz-icon" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M12 16V4m0 0L8 8m4-4 4 4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M4 15v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+      </svg>
+      <p class="dz-title">Drop an image here</p>
+      <p class="dz-sub">or <span class="fake-link">browse your files</span> &middot; paste with <kbd>Ctrl</kbd>+<kbd>V</kbd></p>
+      <input type="file" id="file-input" accept="image/*" hidden>
+    </div>
+
+    <div class="url-row">
+      <label class="sr-only" for="url-input">Image URL</label>
+      <input type="url" id="url-input" placeholder="https://example.com/photo.jpg" autocomplete="off" spellcheck="false">
+      <button type="button" id="url-btn" class="btn">Load URL</button>
+    </div>
+
+    <p class="hint">Remote images must allow cross-origin access (CORS) so their pixels can be read.</p>
+
+    <p class="samples-label">Or try a sample:</p>
+    <div class="samples" id="samples"></div>
+  </section>
+
+  <section class="panel">
+    <h2><span class="step">2</span> Preview</h2>
+    <div class="stage" id="stage">
+      <img id="preview" alt="Preview of the selected image">
+      <p id="stage-empty" class="empty">No image loaded yet.</p>
+    </div>
+    <p id="meta" class="meta"></p>
+  </section>
+
+  <section class="panel">
+    <h2><span class="step">3</span> Palette &amp; hex codes</h2>
+
+    <div class="options">
+      <div class="option">
+        <label for="count">Colors: <output id="count-out">8</output></label>
+        <input type="range" id="count" min="2" max="20" step="1" value="8">
+      </div>
+      <div class="option">
+        <label for="quality">Quality</label>
+        <select id="quality">
+          <option value="1">1 &mdash; highest (slowest)</option>
+          <option value="5">5 &mdash; high</option>
+          <option value="10" selected>10 &mdash; default</option>
+          <option value="20">20 &mdash; fast</option>
+          <option value="40">40 &mdash; fastest</option>
+        </select>
+      </div>
+      <button type="button" id="download-btn" class="btn btn-ghost" disabled>Download palette PNG</button>
+    </div>
+
+    <div id="status" class="status" role="status" aria-live="polite"></div>
+
+    <div id="dominant-wrap" class="dominant-wrap" hidden>
+      <h3>Dominant color</h3>
+      <button type="button" class="dominant" id="dominant" title="Click to copy">
+        <span class="dominant-chip" id="dominant-chip"></span>
+        <span class="dominant-text">
+          <span class="hex" id="dominant-hex">&mdash;</span>
+          <span class="sub" id="dominant-rgb"></span>
+        </span>
+      </button>
+    </div>
+
+    <div class="palette" id="palette"></div>
+
+    <details class="hexlist-wrap" id="hexlist-wrap" hidden>
+      <summary>Plain hex list</summary>
+      <pre id="hexlist"></pre>
+    </details>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <p>
+      Built for assignment <strong>PP48</strong> &middot;
+      palette extraction by <a href="https://github.com/lokesh/color-thief" target="_blank" rel="noopener">Color Thief</a> (MIT)
+      &middot; <a href="https://github.com/awootofu/PP48-color-palette" target="_blank" rel="noopener">source code</a>
+    </p>
+  </div>
+</footer>
+
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+<script src="vendor/color-thief.min.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
