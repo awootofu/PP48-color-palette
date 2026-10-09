@@ -9,6 +9,8 @@ never uploaded anywhere.
 
 **Live demo:** <https://awootofu.github.io/PP48-color-palette/>
 
+![Color Palette Identifier](docs/screenshot.png)
+
 ---
 
 ## Features
